@@ -681,19 +681,23 @@ document.body.appendChild(renderer.domElement);
 const controls = new (0, _orbitControls.OrbitControls)(camera, renderer.domElement);
 // Earth
 const earthGeometry = new _three.SphereGeometry(5, 32, 32);
+const earthTexture = new _three.TextureLoader().load('earth.7b6c6755.jpg'); // Make sure earth.jpg is in your public/assets folder or correct path
 const earthMaterial = new _three.MeshPhongMaterial({
-    color: 0x87CEFA,
+    map: earthTexture,
     shininess: 20
-}); // Light blue
+});
 const earth = new _three.Mesh(earthGeometry, earthMaterial);
 scene.add(earth);
 earth.rotation.z = 0.41; // Tilt for realism
 // Lighting
-const light = new _three.PointLight(0xffffff, 1);
-light.position.set(20, 20, 20);
+const light = new _three.PointLight(0xffffff, 200); // Increased intensity
+light.position.set(0, 0, 20); // In front of the earth
 scene.add(light);
 const ambient = new _three.AmbientLight(0x404040);
 scene.add(ambient);
+// Light helper
+const lightHelper = new _three.PointLightHelper(light, 1);
+scene.add(lightHelper);
 camera.position.z = 20;
 // Satellite logic
 let satellites = [];

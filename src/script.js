@@ -13,18 +13,25 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 // Earth
 const earthGeometry = new THREE.SphereGeometry(5, 32, 32);
-const earthMaterial = new THREE.MeshPhongMaterial({ color: 0x87CEFA, shininess: 20 }); // Light blue
+const earthTexture = new THREE.TextureLoader().load('earth.7b6c6755.jpg'); // Make sure earth.jpg is in your public/assets folder or correct path
+const earthMaterial = new THREE.MeshPhongMaterial({ map: earthTexture, shininess: 20 });
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earth);
 earth.rotation.z = 0.41; // Tilt for realism
 
 
 // Lighting
-const light = new THREE.PointLight(0xffffff, 1);
-light.position.set(20, 20, 20);
+const light = new THREE.PointLight(0xffffff, 200); // Increased intensity
+light.position.set(0, 0, 20); // In front of the earth
 scene.add(light);
 const ambient = new THREE.AmbientLight(0x404040);
 scene.add(ambient);
+
+// Light helper
+const lightHelper = new THREE.PointLightHelper(light, 1);
+scene.add(lightHelper);
+
+
 
 camera.position.z = 20;
 
